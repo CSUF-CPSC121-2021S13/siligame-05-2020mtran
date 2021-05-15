@@ -53,32 +53,35 @@ void Game::MoveGameElements() {
 void Game::FilterIntersections() {  
   for (int i = 0; i < opponents.size(); i++) {    
     if (opponents[i]->GetIsActive() && player.GetIsActive() &&        
-    opponents[i]->IntersectsWith(&player)) {      
-      // opponents_.erase(opponents_.begin() + i);      
+      opponents[i]->IntersectsWith(&player)) {
       opponents[i]->SetIsActive(false);
       player.SetIsActive(false);
       lost = true;    
       }
-    for (int k = 0; k < oProjectiles.size(); k++) {
-      if (oProjectiles[i]->IntersectsWith(&player)) {     
-      oProjectiles[i]->SetIsActive(false);
+  }
+  for (int k = 0; k < oProjectiles.size(); k++) {
+    if (oProjectiles[k]->GetIsActive() && player.GetIsActive() && oProjectiles[k]->IntersectsWith(&player)) {     
+      oProjectiles[k]->SetIsActive(false);
       player.SetIsActive(false);
       lost = true; 
+      } else if (player.GetIsActive() && oProjectiles[k]->IntersectsWith(&player) == false) {
+        oProjectiles[k]->SetIsActive(true);
+        player.SetIsActive(true);
+        lost = false; 
       }
-      }    
-        for (int j = 0; j < pProjectiles.size(); j++) {        
-          if (opponents[i]->GetIsActive() &&            
-          pProjectiles[j]->GetIsActive() &&            
-          pProjectiles[j]->IntersectsWith(opponents[i].get())) {          
-            opponents[i]->SetIsActive(false);          
-            pProjectiles[j]->SetIsActive(false);
-            if (player.GetIsActive() == true) {
-            score += 1;        
-            }
-            }      
-            }      
-            }
-}            
+      }
+for (int j = 0; j < pProjectiles.size(); j++) {   
+  for (int l = 0; l < opponents.size(); l++) {     
+    if (pProjectiles[j]->IntersectsWith(opponents[l].get())) {        
+        opponents[l]->SetIsActive(false);          
+        pProjectiles[j]->SetIsActive(false);
+        if (player.GetIsActive() == true) {
+          score += 1;
+        }
+      }
+      }
+    }
+}      
 
 void Game::Start() { Screen.ShowUntilClosed(); }
 
