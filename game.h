@@ -10,7 +10,7 @@
 #ifndef GAME_H
 #define GAME_H
 
-class Game : public graphics::AnimationEventListener, public graphics::MouseEventListener, public GameElement {
+class Game : public graphics::AnimationEventListener, public graphics::MouseEventListener {
  public:
   Game() : Screen(800, 600) {}
   Game(int width, int height) : Screen(width, height) {}
@@ -33,8 +33,6 @@ class Game : public graphics::AnimationEventListener, public graphics::MouseEven
   void OnAnimationStep() override;
   void LaunchProjectiles();
   void RemoveInactive();
-  void Draw(graphics::Image &Screen) override;
-  void Move(const graphics::Image &Screen) override;
  private:
   graphics::Image Screen;
   std::vector<std::unique_ptr<Opponent>> opponents;
